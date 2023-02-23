@@ -27,7 +27,7 @@ public class AppContext {
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
-        sessionFactory.setPackagesToScan("ru.urusov.astonmvch.entities");
+        sessionFactory.setPackagesToScan("ru.urusov.astonmvch.model.entities");
         sessionFactory.setHibernateProperties(hibernateProperties());
         return sessionFactory;
     }
