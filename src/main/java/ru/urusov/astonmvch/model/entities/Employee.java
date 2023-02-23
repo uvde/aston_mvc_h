@@ -23,7 +23,7 @@ public class Employee {
     @Column(name = "employee_city")
     private String city;
 
-    @Column(name = "employee_salary")
+    @Column(name = "employee_salary", insertable=false, updatable=false)
     private Integer salary;
 
     public Employee() {

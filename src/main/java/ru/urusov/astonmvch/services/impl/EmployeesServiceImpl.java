@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.urusov.astonmvch.dao.EmployeesDao;
 import ru.urusov.astonmvch.model.dto.EmployeeDto;
+import ru.urusov.astonmvch.model.entities.Employee;
 import ru.urusov.astonmvch.services.EmployeesService;
 
 import java.util.ArrayList;
@@ -30,22 +31,43 @@ public class EmployeesServiceImpl implements EmployeesService {
     }
 
     @Override
-    public EmployeeDto getById(Long id) {
-        return null;
-    }
-
-    @Override
+    @Transactional
     public Long saveEmployee(EmployeeDto employeeDto) {
+        Employee employee = new Employee();
+        employee.setName(employeeDto.getName());
+        employee.setBirthday(employeeDto.getBirthday());
+        employee.setCity(employeeDto.getCity());
+        employeesDao.saveEmployee(employee);
         return null;
     }
 
     @Override
-    public void deleteById(Long id) {
-
+    @Transactional(readOnly = true)
+    public EmployeeDto getById(Long id) {
+        Employee employee = employeesDao.getById(id);
+        EmployeeDto employeeDto = new EmployeeDto();
+        employeeDto.setId(employee.getId());
+        employeeDto.setName(employee.getName());
+        employeeDto.setBirthday(employee.getBirthday());
+        employeeDto.setCity(employee.getCity());
+        employeeDto.setSalary(employee.getSalary());
+        return employeeDto;
     }
 
     @Override
-    public void updateEmployeeById(EmployeeDto employeeDto) {
+    @Transactional
+    public void deleteById(Long id) {
+        employeesDao.deleteById(id);
+    }
 
+    @Override
+    @Transactional
+    public void updateEmployeeById(EmployeeDto employeeDto) {
+        Employee employee = new Employee();
+        employee.setId(employeeDto.getId());
+        employee.setName(employeeDto.getName());
+        employee.setBirthday(employeeDto.getBirthday());
+        employee.setCity(employeeDto.getCity());
+        employeesDao.updateEmployeeById(employee);
     }
 }

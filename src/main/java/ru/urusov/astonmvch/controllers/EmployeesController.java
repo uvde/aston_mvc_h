@@ -40,7 +40,8 @@ public class EmployeesController {
 
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") long id){
-        model.addAttribute("employee", employeesService.getById(id));
+        EmployeeDto employeeDto = employeesService.getById(id);
+        model.addAttribute("employee", employeeDto);
         return "employees/edit";
     }
 

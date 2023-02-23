@@ -34,19 +34,27 @@ public class EmployeesDaoImpl implements EmployeesDao {
 
     @Override
     public Employee getById(Long id) {
-        return null;
+        Session currentSession = sessionFactory.getCurrentSession();
+        return currentSession.get(Employee.class, id);
     }
 
     @Override
     public Long saveEmployee(Employee employee) {
+        Session currentSession = sessionFactory.getCurrentSession();
+        currentSession.persist(employee);
         return null;
     }
 
     @Override
     public void deleteById(Long id) {
-
+        Session session = sessionFactory.getCurrentSession();
+        Employee book = session.byId(Employee.class).load(id);
+        session.remove(book);
     }
 
     @Override
-    public void updateEmployeeById(Employee employee) {}
+    public void updateEmployeeById(Employee employee) {
+        Session session = sessionFactory.getCurrentSession();
+        session.merge(employee);
+    }
 }
