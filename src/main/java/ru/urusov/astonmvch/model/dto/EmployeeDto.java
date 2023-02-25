@@ -12,17 +12,36 @@ public class EmployeeDto {
         private Date birthday;
         private String city;
         private Integer salary;
+        private String position;
+        private Long positionId;
 
-        public EmployeeDto() {
+    public EmployeeDto() {
         }
 
-        public EmployeeDto(Long id, String name, Date birthday, String city, Integer salary) {
+        public EmployeeDto(Long id, String name, Date birthday, String city, Integer salary, String position) {
             this.id = id;
             this.name = name;
             this.birthday = birthday;
             this.city = city;
             this.salary = salary;
+            this.position = position;
         }
+
+    public Long getPositionId() {
+        return positionId;
+    }
+
+    public void setPositionId(Long positionId) {
+        this.positionId = positionId;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
 
         public Long getId() {
             return id;

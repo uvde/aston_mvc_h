@@ -5,7 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.urusov.astonmvch.model.dto.EmployeeDto;
+import ru.urusov.astonmvch.model.dto.GetAllEmployeesDtoResponse;
 import ru.urusov.astonmvch.services.EmployeesService;
+import ru.urusov.astonmvch.services.PositionsService;
 
 
 @Controller
@@ -14,14 +16,18 @@ public class EmployeesController {
 
     @Autowired
     private final EmployeesService employeesService;
+    private final PositionsService positionsService;
 
-    public EmployeesController(EmployeesService employeesService) {
+    public EmployeesController(EmployeesService employeesService, PositionsService positionsService) {
         this.employeesService = employeesService;
+        this.positionsService = positionsService;
     }
 
     @GetMapping()
     public String getAllEmployees(Model model){
-        model.addAttribute("employeesDto", employeesService.getAllEmployees());
+        model.addAttribute("response",
+                new GetAllEmployeesDtoResponse(employeesService.getAllEmployees(),
+                        positionsService.getAllPositions()) );
         model.addAttribute("employeeDto", new EmployeeDto());
         return "employees/all";
     }
@@ -33,7 +39,7 @@ public class EmployeesController {
     }
 
     @PostMapping()
-    public String creatNewEmployee(@ModelAttribute("employee") EmployeeDto employeeDto){
+    public String creatNewEmployee(@ModelAttribute("employeeDto") EmployeeDto employeeDto){
         employeesService.saveEmployee(employeeDto);
         return "redirect:/v1/employees";
     }

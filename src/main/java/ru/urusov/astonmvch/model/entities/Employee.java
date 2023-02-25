@@ -23,8 +23,18 @@ public class Employee {
     @Column(name = "employee_city")
     private String city;
 
-    @Column(name = "employee_salary", insertable=false, updatable=false)
-    private Integer salary;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "position_id_fk")
+    private Position position;
+
+    public Position getPosition() {
+        return position;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
+    }
+
 
     public Employee() {
     }
@@ -33,7 +43,6 @@ public class Employee {
         this.name = name;
         this.birthday = birthday;
         this.city = city;
-        this.salary = salary;
     }
 
     public Long getId() {
@@ -68,13 +77,6 @@ public class Employee {
         this.city = city;
     }
 
-    public Integer getSalary() {
-        return salary;
-    }
-
-    public void setSalary(Integer salary) {
-        this.salary = salary;
-    }
 
     @Override
     public String toString() {
@@ -83,7 +85,6 @@ public class Employee {
                 ", name='" + name + '\'' +
                 ", birthday=" + birthday +
                 ", city='" + city + '\'' +
-                ", salary=" + salary +
                 '}';
     }
 }

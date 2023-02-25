@@ -1,8 +1,5 @@
 package ru.urusov.astonmvch.dao.impl;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -24,12 +21,9 @@ public class EmployeesDaoImpl implements EmployeesDao {
     @Override
     public List<Employee> getAllEmployees() {
         Session session = sessionFactory.getCurrentSession();
-        CriteriaBuilder cb = session.getCriteriaBuilder();
-        CriteriaQuery<Employee> cq = cb.createQuery(Employee.class);
-        Root< Employee > root = cq.from(Employee.class);
-        cq.select(root);
-        Query<Employee> query = session.createQuery(cq);
-        return query.getResultList();
+        Query<Employee> query = session.createQuery("SELECT e FROM Employee e", Employee.class);
+
+        return query.list();
     }
 
     @Override

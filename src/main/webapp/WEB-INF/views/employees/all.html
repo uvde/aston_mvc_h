@@ -13,7 +13,7 @@
 <div class="w-75 mx-auto">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="https://getbootstrap.com/">MVC</a>
+            <a class="navbar-brand" href="https://github.com/uvde/aston_mvc_h">MVC</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -25,11 +25,11 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" th:href="@{/v1/projects}">Project</a>
                     </li>
-<!--                    <li class="nav-item">-->
-<!--                        <a class="nav-link" href="#">Pricing</a>-->
-<!--                    </li>-->
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" th:href="@{/v1/positions}">Position</a>
+                    </li>
                     <li class="nav-item pr-5">
-                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Bootstrap_Thymeleaf_SpringMVC_PostgreSQL</a>
+                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Bootstrap Thymeleaf SpringMVC Hibernate PostgreSQL</a>
                     </li>
                 </ul>
             </div>
@@ -46,17 +46,24 @@
     </div>
     <div class="col-auto">
         <label class="visually-hidden" for="autoSizingInput">City</label>
-        <input type="text" th:field="*{city}"  class="form-control" id="autoSizingInputCity" placeholder="Minsk">
+        <input type="text" th:field="*{city}" class="form-control" id="autoSizingInputCity" placeholder="Minsk">
     </div>
     <div class="col-auto">
         <label class="visually-hidden" for="autoSizingInput">City</label>
-        <input type="date" th:field="*{birthday}"  class="form-control" id="autoSizingInputBirthday" placeholder="Minsk">
+        <input type="date" th:field="*{birthday}"  class="form-control" id="autoSizingInputBirthday" >
+    </div>
+    <div class="col-auto">
+        <select class="form-select" th:field="*{positionId}"  aria-label="Default select example">
+            <option value="" selected disabled>Position</option>
+            <option th:each="positionDto : ${response.getPositionDtoList()}" th:text="${positionDto.getName()}" th:value="${positionDto.getId()}"></option>
+        </select>
     </div>
 
     <div class="col-auto">
         <button type="submit" class="btn btn-primary">Add Employee</button>
     </div>
 </form>
+
 
 <table class="table">
     <thead class="thead-dark">
@@ -66,18 +73,20 @@
         <th scope="col">City</th>
         <th scope="col">Birthday</th>
         <th scope="col">Salary</th>
+        <th scope="col">Position</th>
         <th scope="col">Action</th>
 
     </tr>
     </thead>
     <tbody>
-    <tr th:each="employeeDto : ${employeesDto}">
+    <tr th:each="employeeDto : ${response.getEmployeeDtoList()}">
 <!--        <th scope="row" th:text="${employee.getId()}"></th>-->
 
         <td th:text="${employeeDto.getName()}"></td>
         <td th:text="${employeeDto.getCity()}"></td>
         <td th:text="${employeeDto.getBirthday()}"></td>
         <td th:text="${employeeDto.getSalary()}"></td>
+        <td th:text="${employeeDto.getPosition()}"></td>
         <td>
             <form class="d-inline" th:method="delete" th:action="@{/v1/employees/{id}(id=${employeeDto.getId()})}">
             <button type="submit" class="btn btn-outline-primary">Delete</button>
