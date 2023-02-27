@@ -21,7 +21,8 @@ public class EmployeesDaoImpl implements EmployeesDao {
     @Override
     public List<Employee> getAllEmployees() {
         Session session = sessionFactory.getCurrentSession();
-        Query<Employee> query = session.createQuery("SELECT e FROM Employee e", Employee.class);
+        Query<Employee> query = session.createQuery("SELECT e" +
+                " FROM Employee e JOIN FETCH e.position", Employee.class);
 
         return query.list();
     }
@@ -33,17 +34,16 @@ public class EmployeesDaoImpl implements EmployeesDao {
     }
 
     @Override
-    public Long saveEmployee(Employee employee) {
+    public void saveEmployee(Employee employee) {
         Session currentSession = sessionFactory.getCurrentSession();
         currentSession.persist(employee);
-        return null;
     }
 
     @Override
     public void deleteById(Long id) {
         Session session = sessionFactory.getCurrentSession();
-        Employee book = session.byId(Employee.class).load(id);
-        session.remove(book);
+        Employee employee = session.byId(Employee.class).load(id);
+        session.remove(employee);
     }
 
     @Override

@@ -1,8 +1,12 @@
 package ru.urusov.astonmvch.model.entities;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.LazyToOne;
+import org.hibernate.annotations.LazyToOneOption;
 
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "employee")
@@ -23,9 +27,36 @@ public class Employee {
     @Column(name = "employee_city")
     private String city;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "position_id_fk")
+    @BatchSize(size = 3)
+    @LazyToOne(LazyToOneOption.NO_PROXY)
     private Position position;
+
+    @ManyToMany
+    @JoinTable(name = "employee_project",
+        joinColumns = @JoinColumn(name = "employee_id"),
+        inverseJoinColumns = @JoinColumn(name = "project_id"))
+    private Set<Project> projects;
+
+
+    public Employee() {
+    }
+
+    public Employee(String name, Date birthday, String city) {
+        this.name = name;
+        this.birthday = birthday;
+        this.city = city;
+    }
+
+    public Employee(Long id, String name, Date birthday, String city, Position position, Set<Project> projects) {
+        this.id = id;
+        this.name = name;
+        this.birthday = birthday;
+        this.city = city;
+        this.position = position;
+        this.projects = projects;
+    }
 
     public Position getPosition() {
         return position;
@@ -35,14 +66,12 @@ public class Employee {
         this.position = position;
     }
 
-
-    public Employee() {
+    public Set<Project> getProjects() {
+        return projects;
     }
 
-    public Employee(String name, Date birthday, String city, Integer salary) {
-        this.name = name;
-        this.birthday = birthday;
-        this.city = city;
+    public void setProjects(Set<Project> projects) {
+        this.projects = projects;
     }
 
     public Long getId() {

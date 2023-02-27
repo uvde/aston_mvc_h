@@ -25,6 +25,13 @@ public class Position {
     public Position() {
     }
 
+    public Position(Long id, String name, Integer salary, Set<Employee> employees) {
+        this.id = id;
+        this.name = name;
+        this.salary = salary;
+        this.employees = employees;
+    }
+
     public Position(Long id, String name, Integer salary) {
         this.id = id;
         this.name = name;

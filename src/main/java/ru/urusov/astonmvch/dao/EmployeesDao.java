@@ -8,7 +8,7 @@ public interface EmployeesDao {
 
     List<Employee> getAllEmployees();
     Employee getById(Long id);
-    Long saveEmployee(Employee employee);
+    void saveEmployee(Employee employee);
     void deleteById(Long id);
     void updateEmployeeById(Employee employee);
 }

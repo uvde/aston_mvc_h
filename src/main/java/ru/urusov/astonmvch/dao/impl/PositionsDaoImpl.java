@@ -21,28 +21,31 @@ public class PositionsDaoImpl implements PositionsDao {
     @Override
     public List<Position> getAllPositions() {
         Session session = sessionFactory.getCurrentSession();
-        Query<Position> query = session.createQuery("FROM Position", Position.class);
+        Query<Position> query = session.createQuery("SELECT p FROM Position p", Position.class);
         return query.getResultList();
     }
 
     @Override
     public Position getById(Long id) {
-        return null;
+        Session session = sessionFactory.getCurrentSession();
+        return session.get(Position.class, id);
     }
 
     @Override
-    public Long savePosition(Position position) {
-        return null;
+    public void savePosition(Position position) {
+        getCurrentSession().persist(position);
     }
 
     @Override
     public void deleteById(Long id) {
-
+        Session session = sessionFactory.getCurrentSession();
+        Position position = session.byId(Position.class).load(id);
+        session.remove(position);
     }
 
     @Override
     public void updatePositionById(Position position) {
-
+        getCurrentSession().merge(position);
     }
 
     private Session getCurrentSession(){

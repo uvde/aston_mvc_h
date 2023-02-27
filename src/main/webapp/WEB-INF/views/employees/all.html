@@ -37,9 +37,10 @@
     </nav>
 
 
+    <h3 class="pt-3">Employees</h3>
 
 <!--/*@thymesVar id="employee" type="ru.urusov.astonmvc.model.Employee"*/-->
-<form class="row gy-2 gx-3 align-items-center pb-5 pt-5" th:method="post" th:action="@{/v1/employees}" th:object="${employeeDto}">
+<form class="row gy-2 gx-3 align-items-center pb-3 pt-3" th:method="post" th:action="@{/v1/employees}" th:object="${employeeDto}">
     <div class="col-auto">
         <label class="visually-hidden" for="autoSizingInput">Name</label>
         <input type="text" th:field="*{name}"  class="form-control" id="autoSizingInput" placeholder="Jane Doe">
@@ -54,8 +55,12 @@
     </div>
     <div class="col-auto">
         <select class="form-select" th:field="*{positionId}"  aria-label="Default select example">
-            <option value="" selected disabled>Position</option>
-            <option th:each="positionDto : ${response.getPositionDtoList()}" th:text="${positionDto.getName()}" th:value="${positionDto.getId()}"></option>
+            <option value="" >Position</option>
+            <option value="1">boss</option>
+            <option value="2">manager</option>
+            <option value="3">J</option>
+            <option value="4">M</option>
+            <option value="5">S</option>
         </select>
     </div>
 
@@ -79,7 +84,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="employeeDto : ${response.getEmployeeDtoList()}">
+    <tr th:each="employeeDto : ${response}">
 <!--        <th scope="row" th:text="${employee.getId()}"></th>-->
 
         <td th:text="${employeeDto.getName()}"></td>

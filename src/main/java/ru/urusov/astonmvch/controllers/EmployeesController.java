@@ -1,33 +1,28 @@
 package ru.urusov.astonmvch.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.urusov.astonmvch.model.dto.EmployeeDto;
-import ru.urusov.astonmvch.model.dto.GetAllEmployeesDtoResponse;
 import ru.urusov.astonmvch.services.EmployeesService;
-import ru.urusov.astonmvch.services.PositionsService;
+
+import javax.validation.Valid;
 
 
 @Controller
 @RequestMapping("/v1/employees")
 public class EmployeesController {
 
-    @Autowired
-    private final EmployeesService employeesService;
-    private final PositionsService positionsService;
 
-    public EmployeesController(EmployeesService employeesService, PositionsService positionsService) {
+    private final EmployeesService employeesService;
+
+    public EmployeesController(EmployeesService employeesService) {
         this.employeesService = employeesService;
-        this.positionsService = positionsService;
     }
 
     @GetMapping()
     public String getAllEmployees(Model model){
-        model.addAttribute("response",
-                new GetAllEmployeesDtoResponse(employeesService.getAllEmployees(),
-                        positionsService.getAllPositions()) );
+        model.addAttribute("response", employeesService.getAllEmployees());
         model.addAttribute("employeeDto", new EmployeeDto());
         return "employees/all";
     }
@@ -39,7 +34,7 @@ public class EmployeesController {
     }
 
     @PostMapping()
-    public String creatNewEmployee(@ModelAttribute("employeeDto") EmployeeDto employeeDto){
+    public String creatNewEmployee(@ModelAttribute("employeeDto") @Valid EmployeeDto employeeDto){
         employeesService.saveEmployee(employeeDto);
         return "redirect:/v1/employees";
     }
@@ -47,12 +42,12 @@ public class EmployeesController {
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") long id){
         EmployeeDto employeeDto = employeesService.getById(id);
-        model.addAttribute("employee", employeeDto);
+        model.addAttribute("employeeDto", employeeDto);
         return "employees/edit";
     }
 
     @PatchMapping("/{id}")
-    public String updateEmployeeById(@ModelAttribute("employee") EmployeeDto employeeDto){
+    public String updateEmployeeById(@ModelAttribute("employeeDto") EmployeeDto employeeDto){
         employeesService.updateEmployeeById(employeeDto);
         return "redirect:/v1/employees";
     }
