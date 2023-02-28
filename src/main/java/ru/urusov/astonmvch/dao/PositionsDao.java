@@ -9,7 +9,7 @@ public interface PositionsDao {
 
     List<Position> getAllPositions();
     Position getById(Long id);
-    Long savePosition(Position position);
+    void savePosition(Position position);
     void deleteById(Long id);
     void updatePositionById(Position position);
 }

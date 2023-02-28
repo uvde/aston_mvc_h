@@ -38,7 +38,7 @@ public class EmployeesServiceImpl implements EmployeesService {
 
     @Override
     @Transactional
-    public Long saveEmployee(EmployeeDto employeeDto) {
+    public void saveEmployee(EmployeeDto employeeDto) {
         Employee employee = new Employee();
         employee.setName(employeeDto.getName());
         employee.setBirthday(employeeDto.getBirthday());
@@ -47,7 +47,6 @@ public class EmployeesServiceImpl implements EmployeesService {
         position.setId(employeeDto.getPositionId());
         employee.setPosition(position);
         employeesDao.saveEmployee(employee);
-        return null;
     }
 
     @Override
@@ -59,7 +58,8 @@ public class EmployeesServiceImpl implements EmployeesService {
         employeeDto.setName(employee.getName());
         employeeDto.setBirthday(employee.getBirthday());
         employeeDto.setCity(employee.getCity());
-
+        employeeDto.setPositionId(employee.getPosition().getId());
+        employeeDto.setPosition(employee.getPosition().getName());
         return employeeDto;
     }
 
@@ -77,6 +77,9 @@ public class EmployeesServiceImpl implements EmployeesService {
         employee.setName(employeeDto.getName());
         employee.setBirthday(employeeDto.getBirthday());
         employee.setCity(employeeDto.getCity());
+        Position position = new Position();
+        position.setId(employeeDto.getPositionId());
+        employee.setPosition(position);
         employeesDao.updateEmployeeById(employee);
     }
 }
